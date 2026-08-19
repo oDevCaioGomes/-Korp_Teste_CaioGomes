@@ -53,3 +53,18 @@
   forma — ambos viram "não foi possível confirmar o estoque". Deveriam ter
   tratamento e mensagens diferentes, já que um é erro de dado e o outro é de
   disponibilidade.
+
+  HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json; charset=utf-8
+Date: Wed, 19 Aug 2026 01:17:19 GMT
+Server: Kestrel
+Transfer-Encoding: chunked
+
+{
+  "id": "731138d2-293b-470f-9a22-fd618a775744",
+  "numero": 1,
+  "status": "Fechada",
+  "criadaEm": "2026-08-19T01:10:35.7025277",
+  "quantidadeItens": 1
+}

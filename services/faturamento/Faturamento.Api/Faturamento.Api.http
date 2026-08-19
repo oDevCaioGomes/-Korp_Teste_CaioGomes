@@ -7,14 +7,14 @@ POST {{baseUrl}}/api/notas-fiscais
 GET {{baseUrl}}/api/notas-fiscais
 
 ### Adicionar item
-POST {{baseUrl}}/api/notas-fiscais/55c4bf72-ef38-497c-a207-eabad35b49a0/itens
+POST {{baseUrl}}/api/notas-fiscais/731138d2-293b-470f-9a22-fd618a775744/itens
 Content-Type: application/json
 
 {
-  "produtoId": "c0f10172-910d-4ab3-856d-728cd1e3ef43",
+  "produtoId": "d07af155-934c-439b-a60c-657c8a7a72aa",
   "descricaoProduto": "Caneta esferográfica",
-  "quantidade": 2
+  "quantidade": 1
 }
 
 ### Imprimir nota fiscal
-POST {{baseUrl}}/api/notas-fiscais/55c4bf72-ef38-497c-a207-eabad35b49a0/imprimir
+POST {{baseUrl}}/api/notas-fiscais/731138d2-293b-470f-9a22-fd618a775744/imprimir

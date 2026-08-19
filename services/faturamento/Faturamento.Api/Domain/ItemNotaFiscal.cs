@@ -7,6 +7,9 @@ public class ItemNotaFiscal
     public string DescricaoProduto { get; private set; } = default!;
     public int Quantidade { get; private set; }
 
+    private ItemNotaFiscal() { }
+
+
     public ItemNotaFiscal(Guid produtoId, string descricaoProduto, int quantidade)
     {
         if (quantidade <= 0)

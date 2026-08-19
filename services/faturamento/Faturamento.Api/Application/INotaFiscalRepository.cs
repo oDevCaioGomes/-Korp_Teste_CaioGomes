@@ -4,8 +4,9 @@ namespace Faturamento.Api.Application;
 
 public interface INotaFiscalRepository
 {
-    List<NotaFiscal> Listar();
-    NotaFiscal? ObterPorId(Guid id);
-    int ProximoNumero();
-    void Adicionar(NotaFiscal nota);
+    Task<List<NotaFiscal>> ListarAsync();
+    Task<NotaFiscal?> ObterPorIdAsync(Guid id);
+    Task<int> ProximoNumeroAsync();
+    Task AdicionarAsync(NotaFiscal nota);
+    Task SalvarAsync();
 }

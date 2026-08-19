@@ -1,6 +1,7 @@
 using Faturamento.Api.Application;
 using Faturamento.Api.Clients;
 using Faturamento.Api.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using Polly;
 using Polly.Extensions.Http;
 
@@ -12,7 +13,10 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-builder.Services.AddSingleton<INotaFiscalRepository, NotaFiscalRepositoryEmMemoria>();
+builder.Services.AddDbContext<FaturamentoDbContext>(options =>
+    options.UseSqlite("Data Source=faturamento.db"));
+
+builder.Services.AddScoped<INotaFiscalRepository, NotaFiscalRepositoryEfCore>();
 
 // Cliente HTTP para o Serviço de Estoque, com retry + circuit breaker (Polly).
 builder.Services.AddHttpClient<IEstoqueClient, EstoqueClient>(client =>
@@ -42,9 +46,7 @@ static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy() =>
         .HandleTransientHttpError()
         .WaitAndRetryAsync(3, tentativa => TimeSpan.FromSeconds(Math.Pow(2, tentativa)));
 
-// Depois de 5 falhas seguidas, "abre o circuito" por 30s -
-// para de tentar bater no Estoque e falha rápido, sem martelar
-// um serviço que já está fora do ar.
+// Depois de 5 falhas seguidas, "abre o circuito" por 30s.
 static IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy() =>
     HttpPolicyExtensions
         .HandleTransientHttpError()

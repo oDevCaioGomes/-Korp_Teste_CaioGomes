@@ -10,6 +10,9 @@ public class NotaFiscal
     public DateTime CriadaEm { get; private set; }
     public IReadOnlyCollection<ItemNotaFiscal> Itens => _itens.AsReadOnly();
 
+    private NotaFiscal() { }
+
+
     public NotaFiscal(int numero)
     {
         Id = Guid.NewGuid();
