@@ -1,6 +1,23 @@
-@Estoque.Api_HostAddress = http://localhost:5075
+@baseUrl = http://localhost:5153
 
-GET {{Estoque.Api_HostAddress}}/weatherforecast/
+### Criar produto
+POST {{baseUrl}}/api/produtos
+Content-Type: application/json
+
+{
+  "codigo": "COD-1001",
+  "descricao": "Caneta esferográfica",
+  "saldoInicial": 10
+}
+
+### Listar produtos
+GET {{baseUrl}}/api/produtos
 Accept: application/json
 
-###
+### Baixar saldo
+POST {{baseUrl}}/api/produtos/d07af155-934c-439b-a60c-657c8a7a72aa/baixar-saldo
+Content-Type: application/json
+
+{
+  "quantidade": 3
+}

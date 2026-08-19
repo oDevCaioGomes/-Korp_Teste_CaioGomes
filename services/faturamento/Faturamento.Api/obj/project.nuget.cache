@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "dgSpecHash": "ICUKEoIzNQE=",
+  "success": true,
+  "projectFilePath": "D:\\Github\\Projeto_Korp\\ Korp_Teste_CaioGomes\\services\\faturamento\\Faturamento.Api\\Faturamento.Api.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Caio\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.9\\microsoft.aspnetcore.openapi.10.0.9.nupkg.sha512",
+    "C:\\Users\\Caio\\.nuget\\packages\\microsoft.extensions.http.polly\\10.0.11\\microsoft.extensions.http.polly.10.0.11.nupkg.sha512",
+    "C:\\Users\\Caio\\.nuget\\packages\\microsoft.openapi\\2.0.0\\microsoft.openapi.2.0.0.nupkg.sha512",
+    "C:\\Users\\Caio\\.nuget\\packages\\polly\\7.2.4\\polly.7.2.4.nupkg.sha512",
+    "C:\\Users\\Caio\\.nuget\\packages\\polly.extensions.http\\3.0.0\\polly.extensions.http.3.0.0.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "message": "Package 'Microsoft.OpenApi' 2.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-v5pm-xwqc-g5wc",
+      "projectPath": "D:\\Github\\Projeto_Korp\\ Korp_Teste_CaioGomes\\services\\faturamento\\Faturamento.Api\\Faturamento.Api.csproj",
+      "warningLevel": 1,
+      "filePath": "D:\\Github\\Projeto_Korp\\ Korp_Teste_CaioGomes\\services\\faturamento\\Faturamento.Api\\Faturamento.Api.csproj",
+      "libraryId": "Microsoft.OpenApi",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    }
+  ]
+}

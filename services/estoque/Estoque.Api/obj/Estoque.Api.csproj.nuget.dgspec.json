@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Github\\Projeto_Korp\\services\\estoque\\Estoque.Api\\Estoque.Api.csproj": {}
+    "D:\\Github\\Projeto_Korp\\ Korp_Teste_CaioGomes\\services\\estoque\\Estoque.Api\\Estoque.Api.csproj": {}
   },
   "projects": {
-    "D:\\Github\\Projeto_Korp\\services\\estoque\\Estoque.Api\\Estoque.Api.csproj": {
+    "D:\\Github\\Projeto_Korp\\ Korp_Teste_CaioGomes\\services\\estoque\\Estoque.Api\\Estoque.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Github\\Projeto_Korp\\services\\estoque\\Estoque.Api\\Estoque.Api.csproj",
+        "projectUniqueName": "D:\\Github\\Projeto_Korp\\ Korp_Teste_CaioGomes\\services\\estoque\\Estoque.Api\\Estoque.Api.csproj",
         "projectName": "Estoque.Api",
-        "projectPath": "D:\\Github\\Projeto_Korp\\services\\estoque\\Estoque.Api\\Estoque.Api.csproj",
+        "projectPath": "D:\\Github\\Projeto_Korp\\ Korp_Teste_CaioGomes\\services\\estoque\\Estoque.Api\\Estoque.Api.csproj",
         "packagesPath": "C:\\Users\\Caio\\.nuget\\packages\\",
-        "outputPath": "D:\\Github\\Projeto_Korp\\services\\estoque\\Estoque.Api\\obj\\",
+        "outputPath": "D:\\Github\\Projeto_Korp\\ Korp_Teste_CaioGomes\\services\\estoque\\Estoque.Api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -55,6 +55,16 @@
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[10.0.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[10.0.11, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[10.0.11, )"
             }
           },
           "imports": [

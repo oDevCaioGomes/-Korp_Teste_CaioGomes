@@ -1,0 +1,20 @@
+@baseUrl = http://localhost:5010
+
+### Criar nota fiscal
+POST {{baseUrl}}/api/notas-fiscais
+
+### Listar notas fiscais
+GET {{baseUrl}}/api/notas-fiscais
+
+### Adicionar item
+POST {{baseUrl}}/api/notas-fiscais/55c4bf72-ef38-497c-a207-eabad35b49a0/itens
+Content-Type: application/json
+
+{
+  "produtoId": "c0f10172-910d-4ab3-856d-728cd1e3ef43",
+  "descricaoProduto": "Caneta esferográfica",
+  "quantidade": 2
+}
+
+### Imprimir nota fiscal
+POST {{baseUrl}}/api/notas-fiscais/55c4bf72-ef38-497c-a207-eabad35b49a0/imprimir
