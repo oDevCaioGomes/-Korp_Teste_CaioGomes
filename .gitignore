@@ -1,0 +1,22 @@
+# .NET
+bin/
+obj/
+*.user
+
+# Bancos de dados locais (SQLite)
+*.db
+*.db-shm
+*.db-wal
+
+# Angular / Node
+node_modules/
+dist/
+.angular/
+
+# IDE
+.vs/
+.vscode/
+.idea/
+
+# Ambiente
+*.env
