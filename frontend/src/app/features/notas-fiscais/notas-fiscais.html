@@ -1,0 +1,22 @@
+<h2>Notas fiscais</h2>
+
+<button type="button" (click)="novaNota()">+ Nova nota fiscal</button>
+
+<table>
+  <thead>
+    <tr>
+      <th>Número</th>
+      <th>Status</th>
+      <th>Itens</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let nota of notas()">
+      <td>{{ nota.numero }}</td>
+      <td>{{ nota.status }}</td>
+      <td>{{ nota.quantidadeItens }}</td>
+      <td><a [routerLink]="['/notas-fiscais', nota.id]">Ver</a></td>
+    </tr>
+  </tbody>
+</table>

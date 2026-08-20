@@ -1,0 +1,39 @@
+<h2>Produtos</h2>
+
+<form (ngSubmit)="salvarProduto()">
+  <label>
+    Código
+    <input type="text" name="codigo" [(ngModel)]="novoCodigo" required>
+  </label>
+
+  <label>
+    Descrição
+    <input type="text" name="descricao" [(ngModel)]="novaDescricao" required>
+  </label>
+
+  <label>
+    Saldo inicial
+    <input type="number" name="saldo" [(ngModel)]="novoSaldo" required min="0">
+  </label>
+
+  <button type="submit">Salvar produto</button>
+
+  <p *ngIf="mensagemErro" class="erro">{{ mensagemErro }}</p>
+</form>
+
+<table *ngIf="produtos$ | async as produtos">
+  <thead>
+    <tr>
+      <th>Código</th>
+      <th>Descrição</th>
+      <th>Saldo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let produto of produtos">
+      <td>{{ produto.codigo }}</td>
+      <td>{{ produto.descricao }}</td>
+      <td>{{ produto.saldo }}</td>
+    </tr>
+  </tbody>
+</table>

@@ -19,21 +19,23 @@ public class NotasFiscaisController : ControllerBase
         _estoqueClient = estoqueClient;
     }
 
-    public record NotaFiscalResponse(Guid Id, int Numero, string Status, DateTime CriadaEm, int QuantidadeItens);
-    public record AdicionarItemRequest(Guid ProdutoId, string DescricaoProduto, int Quantidade);
+    public record ItemNotaFiscalResponse(Guid ProdutoId, string DescricaoProduto, int Quantidade);
+    public record NotaFiscalResponse(Guid Id, int Numero, string Status, DateTime CriadaEm, int QuantidadeItens, List<ItemNotaFiscalResponse> Itens);
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<NotaFiscalResponse>>> Listar()
-    {
-        var notas = await _repositorio.ListarAsync();
+public async Task<ActionResult<IEnumerable<NotaFiscalResponse>>> Listar()
+{
+    var notas = await _repositorio.ListarAsync();
 
-        var resultado = notas
-            .Select(n => new NotaFiscalResponse(n.Id, n.Numero, n.Status.ToString(), n.CriadaEm, n.Itens.Count))
-            .ToList();
+    var resultado = notas
+        .OrderByDescending(n => n.Numero)
+        .Select(n => new NotaFiscalResponse(
+            n.Id, n.Numero, n.Status.ToString(), n.CriadaEm, n.Itens.Count,
+            n.Itens.Select(i => new ItemNotaFiscalResponse(i.ProdutoId, i.DescricaoProduto, i.Quantidade)).ToList()))
+        .ToList();
 
-        return Ok(resultado);
-    }
-
+    return Ok(resultado);
+}
     [HttpPost]
     public async Task<ActionResult<NotaFiscalResponse>> Criar()
     {
@@ -43,8 +45,8 @@ public class NotasFiscaisController : ControllerBase
         await _repositorio.AdicionarAsync(nota);
         await _repositorio.SalvarAsync();
 
-        return Ok(new NotaFiscalResponse(nota.Id, nota.Numero, nota.Status.ToString(), nota.CriadaEm, 0));
-    }
+        return Ok(new NotaFiscalResponse(nota.Id, nota.Numero, nota.Status.ToString(), nota.CriadaEm, 0, new List<ItemNotaFiscalResponse>()));
+    }   public record AdicionarItemRequest(Guid ProdutoId, string DescricaoProduto, int Quantidade);
 
     [HttpPost("{id:guid}/itens")]
     public async Task<ActionResult> AdicionarItem(Guid id, AdicionarItemRequest request)
@@ -93,6 +95,9 @@ public class NotasFiscaisController : ControllerBase
         nota.Fechar();
         await _repositorio.SalvarAsync();
 
-        return Ok(new NotaFiscalResponse(nota.Id, nota.Numero, nota.Status.ToString(), nota.CriadaEm, nota.Itens.Count));
+        return Ok(new NotaFiscalResponse(
+            
+    nota.Id, nota.Numero, nota.Status.ToString(), nota.CriadaEm, nota.Itens.Count,
+    nota.Itens.Select(i => new ItemNotaFiscalResponse(i.ProdutoId, i.DescricaoProduto, i.Quantidade)).ToList()));
     }
 }

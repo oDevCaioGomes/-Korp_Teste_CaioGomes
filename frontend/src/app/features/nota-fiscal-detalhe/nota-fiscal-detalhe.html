@@ -1,0 +1,49 @@
+<a routerLink="/notas-fiscais"> Voltar para notas fiscais</a>
+<div *ngIf="nota() as notaAtual">
+  <h2>Nota fiscal nº {{ notaAtual.numero }}</h2>
+  <p>Status: <strong>{{ notaAtual.status }}</strong></p>
+
+  <h3>Itens</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Produto</th>
+        <th>Quantidade</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of notaAtual.itens">
+        <td>{{ item.descricaoProduto }}</td>
+        <td>{{ item.quantidade }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="notaAtual.status === 'Aberta'">
+    <h3>Adicionar produto</h3>
+    <form (ngSubmit)="adicionarItem()">
+      <label>
+        Produto
+        <select name="produto" [(ngModel)]="produtoSelecionadoId" required>
+          <option value="" disabled>Selecione um produto</option>
+          <option *ngFor="let produto of produtos()" [value]="produto.id">
+            {{ produto.codigo }} — {{ produto.descricao }} (saldo: {{ produto.saldo }})
+          </option>
+        </select>
+      </label>
+
+      <label>
+        Quantidade
+        <input type="number" name="quantidade" [(ngModel)]="quantidade" min="1" required>
+      </label>
+
+      <button type="submit">+ Adicionar item</button>
+    </form>
+
+    <button type="button" (click)="imprimir()" [disabled]="imprimindo()">
+      {{ imprimindo() ? 'Processando...' : 'Imprimir nota fiscal' }}
+    </button>
+  </div>
+
+  <p *ngIf="mensagemErro" class="erro">{{ mensagemErro }}</p>
+</div>

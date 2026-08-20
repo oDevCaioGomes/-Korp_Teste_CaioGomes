@@ -18,6 +18,14 @@ builder.Services.AddDbContext<FaturamentoDbContext>(options =>
 
 builder.Services.AddScoped<INotaFiscalRepository, NotaFiscalRepositoryEfCore>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod());
+});
+
 // Cliente HTTP para o Serviço de Estoque, com retry + circuit breaker (Polly).
 builder.Services.AddHttpClient<IEstoqueClient, EstoqueClient>(client =>
 {
@@ -35,6 +43,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors();
 app.UseAuthorization();
 app.MapControllers();
 
