@@ -68,3 +68,45 @@ Transfer-Encoding: chunked
   "criadaEm": "2026-08-19T01:10:35.7025277",
   "quantidadeItens": 1
 }
+
+
+
+## Frontend (Angular)
+
+- **CORS bloqueando as chamadas do Angular às duas APIs** — comportamento
+  padrão de navegador para proteger contra chamadas entre origens diferentes.
+  Sem relação com bug: o backend simplesmente nunca havia autorizado
+  `http://localhost:4200` explicitamente. Corrigido com `AddCors` +
+  `AddDefaultPolicy` (restrito a essa origem, não `AllowAnyOrigin`) e
+  `app.UseCors()` no pipeline, nos dois serviços.
+- **Mudança em código de nível superior do `Program.cs` (registro de CORS) não
+  é aplicada por hot reload** — o `dotnet watch` avisa (`ENC0118`) mas às vezes
+  não reinicia sozinho de forma confiável; foi necessário forçar `Ctrl+R` ou
+  reiniciar manualmente o processo mais de uma vez para o CORS realmente
+  entrar em vigor.
+- **Atribuição direta a uma propriedade dentro de `subscribe()` não atualiza a
+  tela** (`NotasFiscaisComponent`, versão inicial) — o Angular moderno não
+  detecta a mudança automaticamente nesse padrão. Os dados chegavam
+  (confirmado via `console.log`), mas a tabela continuava vazia.
+  **Correção:** troca da propriedade simples por um `signal<NotaFiscal[]>([])`,
+  atualizado via `.set()` dentro do `subscribe`.
+- **Conteúdo colado no arquivo errado repetidas vezes** — mesmo padrão de
+  problema já visto no backend, agora no Angular: HTML colado dentro de um
+  `.ts`, e vice-versa; um `import` malformado (`import [Componentes];` sem
+  `from`) que sobrou de uma substituição malfeita. Causa raiz recorrente:
+  múltiplas abas parecidas abertas ao mesmo tempo.
+- **Caractere Unicode (seta `←`) quebrando a exibição no terminal do
+  PowerShell** — o arquivo em si estava correto, mas `Get-Content` cortava a
+  linha visualmente por causa desse caractere específico. Resolvido evitando
+  caracteres especiais em texto que precisa ser conferido via terminal.
+
+## Bug de código real nº 2 (corrigido)
+
+- **Endpoint `imprimir` não capturava a exceção de `NotaFiscal.Fechar()`**
+  quando a nota não tinha itens — `InvalidOperationException` não tratada
+  virava `500` com stack trace, mesmo padrão do bug do Polly (bug nº 1), só
+  que numa camada diferente (regra de domínio, não infraestrutura).
+  **Correção:** `try/catch` ao redor de `nota.Fechar()`, devolvendo `400 Bad
+  Request` com a mensagem de negócio (`ex.Message`) diretamente — sem precisar
+  de nenhuma mudança no frontend, já que o Angular já lia
+  `err?.error?.mensagem` de qualquer resposta de erro.

@@ -92,12 +92,20 @@ public async Task<ActionResult<IEnumerable<NotaFiscalResponse>>> Listar()
             });
         }
 
-        nota.Fechar();
+                try
+        {
+            nota.Fechar();
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { mensagem = ex.Message });
+        }
+
         await _repositorio.SalvarAsync();
 
         return Ok(new NotaFiscalResponse(
-            
-    nota.Id, nota.Numero, nota.Status.ToString(), nota.CriadaEm, nota.Itens.Count,
-    nota.Itens.Select(i => new ItemNotaFiscalResponse(i.ProdutoId, i.DescricaoProduto, i.Quantidade)).ToList()));
+            nota.Id, nota.Numero, nota.Status.ToString(), nota.CriadaEm, nota.Itens.Count,
+            nota.Itens.Select(i => new ItemNotaFiscalResponse(i.ProdutoId, i.DescricaoProduto, i.Quantidade)).ToList()));
     }
+
 }

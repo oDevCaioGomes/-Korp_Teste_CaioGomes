@@ -1,7 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NotaFiscal } from '../../core/models/nota-fiscal.model';
 import { NotaFiscalService } from '../../core/services/nota-fiscal.service';
 import { Produto } from '../../core/models/produto.model';
@@ -10,7 +10,7 @@ import { ProdutoService } from '../../core/services/produto.service';
 @Component({
   selector: 'app-nota-fiscal-detalhe',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './nota-fiscal-detalhe.html',
 })
 export class NotaFiscalDetalhe implements OnInit {

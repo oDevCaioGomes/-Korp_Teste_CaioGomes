@@ -1,6 +1,23 @@
-<nav>
-  <a routerLink="/produtos">Produtos</a>
-  <a routerLink="/notas-fiscais">Notas fiscais</a>
-</nav>
+<div class="app">
 
-<router-outlet></router-outlet>
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-mark">KORP</span>
+      <span class="brand-sub">Notas fiscais</span>
+    </div>
+
+    <nav class="nav">
+      <a class="nav-item" routerLink="/produtos" routerLinkActive="is-active">
+        <span class="nav-num">01</span> Produtos
+      </a>
+      <a class="nav-item" routerLink="/notas-fiscais" routerLinkActive="is-active">
+        <span class="nav-num">02</span> Notas fiscais
+      </a>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <router-outlet></router-outlet>
+  </main>
+
+</div>

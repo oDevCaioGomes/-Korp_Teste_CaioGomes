@@ -1,9 +1,19 @@
-<a routerLink="/notas-fiscais"> Voltar para notas fiscais</a>
-<div *ngIf="nota() as notaAtual">
-  <h2>Nota fiscal nº {{ notaAtual.numero }}</h2>
-  <p>Status: <strong>{{ notaAtual.status }}</strong></p>
+<a class="voltar-link" routerLink="/notas-fiscais">Voltar para notas fiscais</a>
 
-  <h3>Itens</h3>
+<div *ngIf="nota() as notaAtual" class="card invoice-card">
+
+  <div class="invoice-head">
+    <div>
+      <p class="invoice-label">Nota fiscal nº</p>
+      <p class="invoice-number">{{ notaAtual.numero }}</p>
+    </div>
+    <span class="stamp stamp-lg"
+          [class.stamp-open]="notaAtual.status === 'Aberta'"
+          [class.stamp-closed]="notaAtual.status === 'Fechada'">
+      {{ notaAtual.status }}
+    </span>
+  </div>
+
   <table>
     <thead>
       <tr>
@@ -14,16 +24,16 @@
     <tbody>
       <tr *ngFor="let item of notaAtual.itens">
         <td>{{ item.descricaoProduto }}</td>
-        <td>{{ item.quantidade }}</td>
+        <td class="mono">{{ item.quantidade }}</td>
       </tr>
     </tbody>
   </table>
 
   <div *ngIf="notaAtual.status === 'Aberta'">
-    <h3>Adicionar produto</h3>
-    <form (ngSubmit)="adicionarItem()">
-      <label>
-        Produto
+
+    <form class="add-item-row" (ngSubmit)="adicionarItem()">
+      <label class="field field-inline">
+        <span>Produto</span>
         <select name="produto" [(ngModel)]="produtoSelecionadoId" required>
           <option value="" disabled>Selecione um produto</option>
           <option *ngFor="let produto of produtos()" [value]="produto.id">
@@ -32,18 +42,23 @@
         </select>
       </label>
 
-      <label>
-        Quantidade
+      <label class="field field-qty">
+        <span>Qtd.</span>
         <input type="number" name="quantidade" [(ngModel)]="quantidade" min="1" required>
       </label>
 
-      <button type="submit">+ Adicionar item</button>
+      <button type="submit" class="btn-ghost">+ Adicionar item</button>
     </form>
 
-    <button type="button" (click)="imprimir()" [disabled]="imprimindo()">
-      {{ imprimindo() ? 'Processando...' : 'Imprimir nota fiscal' }}
-    </button>
+    <div class="invoice-foot">
+      <p class="invoice-total">{{ notaAtual.itens.length }} {{ notaAtual.itens.length === 1 ? 'item' : 'itens' }} nesta nota</p>
+      <button type="button" class="btn-print" (click)="imprimir()" [disabled]="imprimindo()">
+        {{ imprimindo() ? 'Processando...' : 'Imprimir nota fiscal' }}
+      </button>
+    </div>
+
   </div>
 
-  <p *ngIf="mensagemErro" class="erro">{{ mensagemErro }}</p>
+  <p *ngIf="mensagemErro" class="erro-msg">{{ mensagemErro }}</p>
+
 </div>
