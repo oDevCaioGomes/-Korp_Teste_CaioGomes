@@ -13,8 +13,9 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+var connectionString = builder.Configuration.GetConnectionString("FaturamentoDb") ?? "Data Source=faturamento.db";
 builder.Services.AddDbContext<FaturamentoDbContext>(options =>
-    options.UseSqlite("Data Source=faturamento.db"));
+    options.UseSqlite(connectionString));
 
 builder.Services.AddScoped<INotaFiscalRepository, NotaFiscalRepositoryEfCore>();
 
@@ -27,14 +28,27 @@ builder.Services.AddCors(options =>
 });
 
 // Cliente HTTP para o Serviço de Estoque, com retry + circuit breaker (Polly).
+var estoqueUrl = builder.Configuration["Servicos:Estoque"] ?? "http://localhost:5153/";
 builder.Services.AddHttpClient<IEstoqueClient, EstoqueClient>(client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5153/");
+    client.BaseAddress = new Uri(estoqueUrl);
 })
 .AddPolicyHandler(GetRetryPolicy())
 .AddPolicyHandler(GetCircuitBreakerPolicy());
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<FaturamentoDbContext>();
+    db.Database.Migrate();
+}
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -1,0 +1,27 @@
+services:
+  estoque-api:
+    build:
+      context: ./services/estoque/Estoque.Api
+    ports:
+      - "5153:8080"
+    volumes:
+      - estoque-data:/app/data
+    environment:
+      ConnectionStrings__EstoqueDb: "Data Source=/app/data/estoque.db"
+
+  faturamento-api:
+    build:
+      context: ./services/faturamento/Faturamento.Api
+    ports:
+      - "5010:8080"
+    volumes:
+      - faturamento-data:/app/data
+    environment:
+      ConnectionStrings__FaturamentoDb: "Data Source=/app/data/faturamento.db"
+      Servicos__Estoque: "http://estoque-api:8080/"
+    depends_on:
+      - estoque-api
+
+volumes:
+  estoque-data:
+  faturamento-data:

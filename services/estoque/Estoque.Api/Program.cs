@@ -10,8 +10,9 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+var connectionString = builder.Configuration.GetConnectionString("EstoqueDb") ?? "Data Source=estoque.db";
 builder.Services.AddDbContext<EstoqueDbContext>(options =>
-    options.UseSqlite("Data Source=estoque.db"));
+    options.UseSqlite(connectionString));
 
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepositoryEfCore>();
 
@@ -24,6 +25,12 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<EstoqueDbContext>();
+    db.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
